@@ -1,6 +1,7 @@
 from ppadb.client import Client as AdbClient
 import numpy as np
 import os
+import subprocess
 import matplotlib.pyplot as plt
 from PIL import Image
 import time
@@ -113,10 +114,13 @@ def cycling_friends():
         time.sleep(2)
 
 
+def run_exe():
+    subprocess.call('./scrcpy-win64-v2.0/scrcpy.exe')
 
 ### FUNCTION USE PRE GUI ###
 
 #take_plot_screenshot()
-go_to_friendlist()
-cycling_friends()
+# go_to_friendlist()
+# cycling_friends()
 
+run_exe()
