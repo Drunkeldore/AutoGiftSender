@@ -64,7 +64,7 @@ def go_to_friendlist():
 def opening_gift():
     device.shell("input tap 586 1535")
     device.shell("input tap 533 1813")
-    time.sleep(1)
+    time.sleep(3)
     device.shell("input tap 865 2245")
     device.shell("input tap 865 2245")
     #Gift x 586 y 1535, rgb = (246, 245, 121)
@@ -76,14 +76,15 @@ def sending_gift():
     gift_cords = ["214 1700", "370 754", "533 1857", "865 2245", "865 2245"]
     for each in gift_cords:
 
-        device.shell(f"input tap {each}")
-        time.sleep(1)
         if each == gift_cords[0] and gift_rgb == (246, 245, 121):
             opening_gift()
             print("Gift Opened!")
             continue
 
-        elif each == gift_cords[0] and rgb_checker(346, 1092) == (232, 128, 183):
+        device.shell(f"input tap {each}")
+        time.sleep(1)
+
+        if each == gift_cords[0] and rgb_checker(346, 1092) == (232, 128, 183):
             print('Already Sent Gift')
             device.shell("input tap 865 2245")
             device.shell("input tap 865 2245") # Back button to reset
@@ -96,7 +97,7 @@ def sending_gift():
 def cycling_friends():
     four_friends_coords = ["150 835", "150 1194", "150 1527", "150 1887"]
 
-    for _ in range(4):
+    for _ in range(6):
         num = 1
         for each in four_friends_coords:
             device.shell(f"input tap {each}")
