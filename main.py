@@ -123,4 +123,4 @@ def run_exe():
 # go_to_friendlist()
 # cycling_friends()
 
-run_exe()
+#run_exe()
