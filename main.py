@@ -6,19 +6,20 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import time
 
-#Need to find a better way to manage the timing than with time.sleep. Open to any suggestions. First time
-#programming anything like this. It's been very fun.
+# Need to find a better way to manage the timing than with time.sleep. Open to any suggestions. First time
+# programming anything like this. It's been very fun.
 
-#Default is 127.0.0.1 port 5037
-#Phone Home IP: 10.99.34.58
+# Default is 127.0.0.1 port 5037
+# Phone Home IP: 10.99.34.58
 
 client = AdbClient(host="127.0.0.1", port=5037)
-#connecting to the first device, being tghe phone, the only device.
+# connecting to the first device, being tghe phone, the only device.
 devices = client.devices()
 if len(devices) == 0:
     print("no device attached")
     quit()
 device = devices[0]
+
 
 def plot_image(screenshot):
     poke_file = screenshot
@@ -29,7 +30,8 @@ def plot_image(screenshot):
     plt.imshow(img_array)
     plt.show()
 
-def take_plot_screenshot(): # capture screen and plot it. Save it if prompted with y.
+
+def take_plot_screenshot():  # capture screen and plot it. Save it if prompted with y.
     check_screenshot = input("Do you want to save a screenshot? Y or N: ")
     result = device.screencap()
     filename = "screen0.png"
@@ -52,9 +54,12 @@ def rgb_checker(x, y):
     with open(filename, "wb") as fp:
         fp.write(result)
     image = Image.open(filename)
-    rgb_value = image.getpixel((x, y))[:3] # Getting the rgb for the pink bar to know if we sent a gift
+    rgb_value = image.getpixel((x, y))[
+        :3
+    ]  # Getting the rgb for the pink bar to know if we sent a gift
     os.remove(f"./{filename}")
     return rgb_value
+
 
 def go_to_friendlist():
     friends_list = ["145 2032", "734 203"]
@@ -62,21 +67,21 @@ def go_to_friendlist():
     device.shell(f"sleep 3 && input tap {friends_list[1]}")
     time.sleep(2)
 
+
 def opening_gift():
     device.shell("input tap 586 1535")
     device.shell("input tap 533 1813")
     time.sleep(3)
     device.shell("input tap 865 2245")
     device.shell("input tap 865 2245")
-    #Gift x 586 y 1535, rgb = (246, 245, 121)
+    # Gift x 586 y 1535, rgb = (246, 245, 121)
 
 
 def sending_gift():
-    #Going through sending gifts then hitting back twice to return to friends
+    # Going through sending gifts then hitting back twice to return to friends
     gift_rgb = rgb_checker(586, 1535)
-    gift_cords = ["214 1700", "370 754", "533 1857", "865 2245", "865 2245"]
+    gift_cords = ["214 1700", "550 800", "533 1857", "865 2245", "865 2245"]
     for each in gift_cords:
-
         if each == gift_cords[0] and gift_rgb == (246, 245, 121):
             opening_gift()
             print("Gift Opened!")
@@ -86,9 +91,9 @@ def sending_gift():
         time.sleep(1)
 
         if each == gift_cords[0] and rgb_checker(346, 1092) == (232, 128, 183):
-            print('Already Sent Gift')
+            print("Already Sent Gift")
             device.shell("input tap 865 2245")
-            device.shell("input tap 865 2245") # Back button to reset
+            device.shell("input tap 865 2245")  # Back button to reset
             return
 
     time.sleep(1)
@@ -109,18 +114,24 @@ def cycling_friends():
             num += 1
         # swiping down
         ### scroll coord for full page scroll = 163 2162 163 1615
-        device.shell("input touchscreen swipe 163 2162 163 1737") ### scroll coord for full page scroll = 163 2162 163 1615
+        device.shell(
+            "input touchscreen swipe 163 2162 163 1737"
+        )  ### scroll coord for full page scroll = 163 2162 163 1615
 
         time.sleep(2)
 
 
 def run_exe():
-    subprocess.call('./scrcpy-win64-v2.0/scrcpy.exe')
+    subprocess.call("./scrcpy-win64-v2.0/scrcpy.exe")
+
 
 ### FUNCTION USE PRE GUI ###
 
-#take_plot_screenshot()
+# take_plot_screenshot()
 # go_to_friendlist()
 # cycling_friends()
+# sending_gift()
+# run_exe()
 
-#run_exe()
+device.shell("adb shell pm list packages")
+# pokemon go package name com.nianticlabs.pokemongo&hl=en_US&gl=US&pli=1

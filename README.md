@@ -10,3 +10,9 @@ IMPORTANT = Make sure you are logged into PokemonGo.
 1. Go To Friends: Seperate to make sure things are working.
 2. Auto Gift Activate: Let the script do it's thing.
 3. Show Screen: Use scrcpy to show you your scren live.
+
+
+## Libraries Used
+- pure-python-adb
+- matplotlib
+- PIL
